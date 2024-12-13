@@ -1,0 +1,110 @@
+namespace BinaryTree
+{
+    public class Node
+    {
+        public int Data { get; set; }
+        public Node Left { get; set; }
+        public Node Right { get; set; }
+
+        public Node(int data)
+        {
+            Data = data;
+        }
+    }
+
+    public class BinarySearchTree
+    {
+        public Node Root { get; set; }
+
+        public void Insert(int data)
+        {
+            Root = InsertRecursive(Root, data);
+        }
+
+        private Node InsertRecursive(Node root, int data)
+        {
+            if (root == null)
+            {
+                return new Node(data);
+            }
+
+            if (data < root.Data)
+            {
+                root.Left = InsertRecursive(root.Left, data);
+            }
+            else if (data > root.Data)
+            {
+                root.Right = InsertRecursive(root.Right, data);
+            }
+            //Дубликаты игнорируются
+            return root;
+        }
+
+        public bool Search(int data)
+        {
+            return SearchRecursive(Root, data);
+        }
+
+        private bool SearchRecursive(Node root, int data)
+        {
+            if (root == null)
+            {
+                return false;
+            }
+
+            if (data == root.Data)
+            {
+                return true;
+            }
+            else if (data < root.Data)
+            {
+                return SearchRecursive(root.Left, data);
+            }
+            else
+            {
+                return SearchRecursive(root.Right, data);
+            }
+        }
+
+
+        public void InOrderTraversal()
+        {
+            InOrderTraversalRecursive(Root);
+            Console.WriteLine();
+        }
+
+        private void InOrderTraversalRecursive(Node node)
+        {
+            if (node != null)
+            {
+                InOrderTraversalRecursive(node.Left);
+                Console.Write(node.Data + " ");
+                InOrderTraversalRecursive(node.Right);
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BinarySearchTree bst = new BinarySearchTree();
+            bst.Insert(8);
+            bst.Insert(3);
+            bst.Insert(10);
+            bst.Insert(1);
+            bst.Insert(6);
+            bst.Insert(14);
+            bst.Insert(4);
+            bst.Insert(7);
+            bst.Insert(13);
+
+
+            Console.WriteLine("InOrder Traversal:");
+            bst.InOrderTraversal();
+
+            Console.WriteLine("\nSearch for 6: " + bst.Search(6));
+            Console.WriteLine("Search for 15: " + bst.Search(15));
+        }
+    }
+}
